@@ -9,4 +9,6 @@ public interface UserService {
     Users getUserLogin();
     void validateEmailAndPassword(RequestLogin requestLogin);
     Users readUserByUserId();
+    Users updateUser(RequestUser requestUser);
+    void deleteUser();
 }

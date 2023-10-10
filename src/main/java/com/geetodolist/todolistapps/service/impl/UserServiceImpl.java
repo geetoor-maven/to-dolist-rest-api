@@ -73,4 +73,34 @@ public class UserServiceImpl implements UserService {
         String user = getUserLogin().getUser_id();
         return userRepository.findById(user).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
+
+    @Transactional
+    @Override
+    public Users updateUser(RequestUser requestUser) {
+        // validasi jika email sudah terdaftar di db
+        if (userRepository.existsByEmail(requestUser.getEmail())){
+            throw new ItemAlreadyExistException("User al ready register with email : " + requestUser.getEmail());
+        }
+        // validasi jika username sudah terdaftar di db
+        if (userRepository.existsByUsername(requestUser.getUsername())){
+            throw new ItemAlreadyExistException("User al ready register with username : " + requestUser.getUsername());
+        }
+
+        Users users = readUserByUserId();
+
+        users.setName(requestUser.getName() != null ? requestUser.getName() : users.getName());
+        users.setEmail(requestUser.getEmail() != null ? requestUser.getEmail() : users.getEmail() );
+        users.setPassword(requestUser.getPassword() != null ? passwordEncoder.encode(requestUser.getPassword()) : users.getPassword());
+        users.setUsername(requestUser.getUsername() != null ? requestUser.getUsername() : users.getUsername());
+        users.setAddress(requestUser.getAddress() != null ? requestUser.getAddress() : users.getAddress());
+
+        return userRepository.save(users);
+    }
+
+    @Transactional
+    @Override
+    public void deleteUser() {
+        Users users = readUserByUserId();
+        userRepository.delete(users);
+    }
 }

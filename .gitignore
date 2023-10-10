@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+## unit testing ##
+/src/test/java/com/geetodolist/todolistapps
+
 ### STS ###
 .apt_generated
 .classpath

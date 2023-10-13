@@ -15,8 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.lang.module.ResolutionException;
 import java.util.UUID;
 
 @Service
@@ -59,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void validateEmailAndPassword(RequestLogin requestLogin) {
-        // find userw with email
+        // find user with email
         Users theUser = userRepository.findByEmail(requestLogin.getEmail()).orElseThrow(() -> new ResourceNotFoundException("User Not Found With Email : " + requestLogin.getEmail()));
 
         // validate password with passwordEncoder

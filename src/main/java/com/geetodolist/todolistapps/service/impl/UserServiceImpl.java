@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         Users theUser = new Users();
         BeanUtils.copyProperties(requestUser, theUser);
 
-        theUser.setUser_id(UUID.randomUUID().toString());
+        theUser.setUserId(UUID.randomUUID().toString());
         theUser.setPassword(passwordEncoder.encode(theUser.getPassword()));
         return userRepository.save(theUser);
     }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users readUserByUserId() {
-        String user = getUserLogin().getUser_id();
+        String user = getUserLogin().getUserId();
         return userRepository.findById(user).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 

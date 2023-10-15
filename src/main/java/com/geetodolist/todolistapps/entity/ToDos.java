@@ -21,13 +21,13 @@ public class ToDos {
 
     @Id
     @Column(name = "todo_id", length = 50)
-    private String todo_id;
+    private String todoId;
 
     @Column(name = "title_todo", length = 50)
-    private String title_todo;
+    private String titleTodo;
 
     @Column(name = "desc_todo")
-    private String desc_todo;
+    private String descTodo;
 
     @Column(name = "create_at", nullable = false, updatable = false)
     @CreationTimestamp

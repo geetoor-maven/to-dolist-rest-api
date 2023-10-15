@@ -22,7 +22,7 @@ public class Users {
 
     @Id
     @Column(name = "user_id", length = 50)
-    private String user_id;
+    private String userId;
 
     @Column(name = "name")
     private String name;

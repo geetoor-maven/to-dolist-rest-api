@@ -2,14 +2,16 @@ package com.geetodolist.todolistapps.controller;
 
 import com.geetodolist.todolistapps.dto.Response;
 import com.geetodolist.todolistapps.dto.todos.RequestToDo;
+import com.geetodolist.todolistapps.entity.ToDos;
 import com.geetodolist.todolistapps.service.ToDoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ToDoController {
@@ -33,4 +35,20 @@ public class ToDoController {
                 .status(theResponse.getStatus())
                 .body(theResponse);
     }
+
+    @GetMapping(
+            path = "/todos",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<ToDos> findAllTodosByUserLogIn(Pageable page){
+        return toDoService.findAllTodosByUserLogIn(page).toList();
+    }
+
+    @DeleteMapping(
+            path = "/todo/{todoId}"
+    )
+    public void deleteTodoByTodoId(@PathVariable("todoId") String todoId){
+        toDoService.deleteTodoByTodoId(todoId);
+    }
+
 }

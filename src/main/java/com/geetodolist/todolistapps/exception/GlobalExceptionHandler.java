@@ -61,7 +61,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorObject, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // handle exception if any request is exsist
+    // handle exception if any request is existed
     @ExceptionHandler(ItemAlreadyExistException.class)
     public ResponseEntity<ErrorObject> handleItemExistsException(ItemAlreadyExistException ex, WebRequest request){
         ErrorObject theErrorObject = new ErrorObject();

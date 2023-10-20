@@ -2,6 +2,7 @@ package com.geetodolist.todolistapps.service.impl;
 
 import com.geetodolist.todolistapps.dto.Response;
 import com.geetodolist.todolistapps.dto.todos.RequestToDo;
+import com.geetodolist.todolistapps.dto.todos.RequestUpdateToDo;
 import com.geetodolist.todolistapps.entity.ToDos;
 import com.geetodolist.todolistapps.exception.ResourceNotFoundException;
 import com.geetodolist.todolistapps.repository.ToDoRepository;
@@ -50,12 +51,38 @@ public class ToDoServiceImpl implements ToDoService {
     }
 
     @Override
+    public Response updateTodo(String todoId, RequestUpdateToDo request) {
+        Response theResponse = new Response();
+
+        ToDos theTodo = getTodoByTodoId(todoId);
+        theTodo.setTitleTodo(request.getTitleTodo() != null ? request.getTitleTodo() : theTodo.getTitleTodo());
+        theTodo.setDescTodo(request.getDescTodo() != null ? request.getDescTodo() : theTodo.getDescTodo());
+
+        toDoRepository.save(theTodo);
+        theResponse.setStatus(HttpStatus.OK.value());
+        theResponse.setData(theTodo);
+        return theResponse;
+    }
+
+    @Override
+    public Response findTodoByTodoId(String todoId) {
+        Response theResponse = new Response();
+        Optional<ToDos> toDo = toDoRepository.findByUsersAndTodoId(userService.getUserLogin(), todoId);
+        if (toDo.isPresent()){
+            theResponse.setStatus(HttpStatus.FOUND.value());
+            theResponse.setData(toDo);
+            return theResponse;
+        }
+        throw new ResourceNotFoundException("Todo not found");
+    }
+
+    @Override
     public Page<ToDos> findAllTodosByUserLogIn(Pageable page) {
         return toDoRepository.findByUsers(userService.getUserLogin(), page);
     }
 
     @Override
-    public ToDos findTodoById(String todoId) {
+    public ToDos getTodoByTodoId(String todoId) {
         Optional<ToDos> toDo = toDoRepository.findByUsersAndTodoId(userService.getUserLogin(), todoId);
         if (toDo.isPresent()){
             return toDo.get();
@@ -65,7 +92,7 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public void deleteTodoByTodoId(String todoId) {
-        ToDos toDo = findTodoById(todoId);
+        ToDos toDo = getTodoByTodoId(todoId);
         toDoRepository.delete(toDo);
     }
 

@@ -2,6 +2,7 @@ package com.geetodolist.todolistapps.controller;
 
 import com.geetodolist.todolistapps.dto.Response;
 import com.geetodolist.todolistapps.dto.todos.RequestToDo;
+import com.geetodolist.todolistapps.dto.todos.RequestUpdateToDo;
 import com.geetodolist.todolistapps.entity.ToDos;
 import com.geetodolist.todolistapps.service.ToDoService;
 import jakarta.validation.Valid;
@@ -36,12 +37,37 @@ public class ToDoController {
                 .body(theResponse);
     }
 
+    @PutMapping(
+            path = "/todo/{todoId}",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Response> updateTodo(@PathVariable("todoId")String todoId, @Valid @RequestBody RequestUpdateToDo request){
+        Response theResponse = toDoService.updateTodo(todoId, request);
+
+        return ResponseEntity
+                .status(theResponse.getStatus())
+                .body(theResponse);
+    }
+
     @GetMapping(
             path = "/todos",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<ToDos> findAllTodosByUserLogIn(Pageable page){
         return toDoService.findAllTodosByUserLogIn(page).toList();
+    }
+
+    @GetMapping(
+            path = "/todo/{todoId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Response> findTodoByTodoId(@PathVariable("todoId") String todoId){
+        Response theResponse = toDoService.findTodoByTodoId(todoId);
+
+        return ResponseEntity
+                .status(theResponse.getStatus())
+                .body(theResponse);
     }
 
     @DeleteMapping(

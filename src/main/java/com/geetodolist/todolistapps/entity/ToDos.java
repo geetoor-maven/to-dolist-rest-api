@@ -1,6 +1,7 @@
 package com.geetodolist.todolistapps.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.geetodolist.todolistapps.constant.ProgressTodoEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,9 @@ public class ToDos {
 
     @Column(name = "desc_todo")
     private String descTodo;
+
+    @Column(name = "todo_progress", length = 15)
+    private String todoProgress;
 
     @Column(name = "create_at", nullable = false, updatable = false)
     @CreationTimestamp

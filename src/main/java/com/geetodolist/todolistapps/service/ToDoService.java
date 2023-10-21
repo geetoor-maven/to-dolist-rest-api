@@ -13,5 +13,6 @@ public interface ToDoService {
     ToDos getTodoByTodoId(String todoId);
     void deleteTodoByTodoId(String todoId);
     Response updateTodo(String todoId, RequestUpdateToDo request);
+    Response updateInProgressTodo(String todoId, String progress);
     Response findTodoByTodoId(String todoId);
 }

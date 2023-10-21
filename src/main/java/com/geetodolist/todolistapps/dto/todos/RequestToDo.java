@@ -1,4 +1,5 @@
 package com.geetodolist.todolistapps.dto.todos;
+import com.geetodolist.todolistapps.constant.ProgressTodoEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -19,5 +20,7 @@ public class RequestToDo {
     @NotBlank(message = "Description To-Do name must not be null")
     @Size(max = 250, min = 15, message = "To-Do Description at least 15 char")
     private String descTodo;
+
+    private String  progressTodo = ProgressTodoEnum.TO_DO.getCode();
 
 }

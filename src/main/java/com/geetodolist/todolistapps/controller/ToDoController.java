@@ -1,5 +1,6 @@
 package com.geetodolist.todolistapps.controller;
 
+import com.geetodolist.todolistapps.constant.ProgressTodoEnum;
 import com.geetodolist.todolistapps.dto.Response;
 import com.geetodolist.todolistapps.dto.todos.RequestToDo;
 import com.geetodolist.todolistapps.dto.todos.RequestUpdateToDo;
@@ -44,6 +45,30 @@ public class ToDoController {
     )
     public ResponseEntity<Response> updateTodo(@PathVariable("todoId")String todoId, @Valid @RequestBody RequestUpdateToDo request){
         Response theResponse = toDoService.updateTodo(todoId, request);
+
+        return ResponseEntity
+                .status(theResponse.getStatus())
+                .body(theResponse);
+    }
+
+    @PutMapping(
+            path = "/todo/in-progress/{todoId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Response> updateInProgressTodo(@PathVariable("todoId")String todoId){
+        Response theResponse = toDoService.updateInProgressTodo(todoId, ProgressTodoEnum.IN_PROGRESS.getCode());
+
+        return ResponseEntity
+                .status(theResponse.getStatus())
+                .body(theResponse);
+    }
+
+    @PutMapping(
+            path = "/todo/done/{todoId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Response> updateDoneTodo(@PathVariable("todoId")String todoId){
+        Response theResponse = toDoService.updateInProgressTodo(todoId, ProgressTodoEnum.DONE.getCode());
 
         return ResponseEntity
                 .status(theResponse.getStatus())

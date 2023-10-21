@@ -1,5 +1,6 @@
 package com.geetodolist.todolistapps.service.impl;
 
+import com.geetodolist.todolistapps.constant.ProgressTodoEnum;
 import com.geetodolist.todolistapps.dto.Response;
 import com.geetodolist.todolistapps.dto.todos.RequestToDo;
 import com.geetodolist.todolistapps.dto.todos.RequestUpdateToDo;
@@ -41,6 +42,7 @@ public class ToDoServiceImpl implements ToDoService {
         theTodo.setTodoId(UUID.randomUUID().toString());
         theTodo.setTitleTodo(request.getTitleTodo());
         theTodo.setDescTodo(request.getDescTodo());
+        theTodo.setTodoProgress(request.getProgressTodo());
         theTodo.setUsers(userService.getUserLogin());
 
         toDoRepository.save(theTodo);
@@ -59,6 +61,20 @@ public class ToDoServiceImpl implements ToDoService {
         theTodo.setDescTodo(request.getDescTodo() != null ? request.getDescTodo() : theTodo.getDescTodo());
 
         toDoRepository.save(theTodo);
+        theResponse.setStatus(HttpStatus.OK.value());
+        theResponse.setData(theTodo);
+        return theResponse;
+    }
+
+    @Override
+    public Response updateInProgressTodo(String todoId, String progress) {
+        Response theResponse = new Response();
+
+        ToDos theTodo = getTodoByTodoId(todoId);
+        theTodo.setTodoProgress(progress);
+
+        toDoRepository.save(theTodo);
+
         theResponse.setStatus(HttpStatus.OK.value());
         theResponse.setData(theTodo);
         return theResponse;
